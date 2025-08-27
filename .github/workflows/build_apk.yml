@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repo
+      uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -23,12 +24,12 @@ jobs:
         pip install buildozer Cython
 
     - name: Build APK
+      working-directory: ./mobile_client
       run: |
-        cd mobile_client
         buildozer android debug
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
         name: DeviceTracker-APK
-        path: mobile_client/bin/*.apk
+        path: ./mobile_client/bin/*.apk
